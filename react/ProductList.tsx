@@ -9,7 +9,6 @@ import { AVAILABLE } from './constants/Availability'
 import { CALL_CENTER_OPERATOR } from './constants/User'
 import LazyRender from './LazyRender'
 import { fetchWithRetry } from './utils/fetchWithRetry'
-import type { PackagesSkuIds } from './typings/packages-sku-ids'
 
 type TotalItemsType =
   | 'total'

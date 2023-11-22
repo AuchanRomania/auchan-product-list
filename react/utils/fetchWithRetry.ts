@@ -1,5 +1,3 @@
-import type { PackagesSkuIds } from '../typings/packages-sku-ids'
-
 type FetchWithRetry = (url: string, retries: number) => Promise<PackagesSkuIds>
 
 export const fetchWithRetry: FetchWithRetry = (url: string, retries: number) =>
