@@ -146,6 +146,7 @@ const ProductList = memo<Props>(function ProductList(props) {
   const handles = useCssHandles(CSS_HANDLES)
 
   const [packagesSkuIds, setPackagesSkuIds] = useState<string[]>([])
+  const [sgrSkuIds, setSgrSkuIds] = useState<string[]>([])
 
   useEffect(() => {
     let isSubscribed = true
@@ -154,7 +155,19 @@ const ProductList = memo<Props>(function ProductList(props) {
       (res: PackagesSkuIds) => {
         if (res && isSubscribed) {
           try {
-            setPackagesSkuIds(Object.values(res.data))
+            const { bagsSettings, sgrSettings } = (res && res.data) ?? {}
+
+            setPackagesSkuIds(Object.values(bagsSettings))
+
+            const allSkuIds: string[] = []
+
+            Object.values(sgrSettings).forEach((sgrType) => {
+              if (sgrType && sgrType.skuIds) {
+                allSkuIds.push(...sgrType.skuIds)
+              }
+            })
+
+            setSgrSkuIds(allSkuIds)
           } catch (error) {
             console.error('Error in packages feature.', error)
           }
@@ -171,7 +184,11 @@ const ProductList = memo<Props>(function ProductList(props) {
     .map((item, index) => ({ ...item, index }))
     .reduce<ItemWithIndex[][]>(
       (acc, item) => {
-        if (item.productId && packagesSkuIds.includes(item.productId)) {
+        if (
+          item.productId &&
+          (packagesSkuIds.includes(item.productId) ||
+            sgrSkuIds.includes(item.productId))
+        ) {
           return acc
         }
 
