@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.1.0] - 2024-05-22
+
 ## Added
 
 - Listen on item text edit box quantity change in minicart
