@@ -37,7 +37,7 @@ const Price: React.FC<PriceProps> = ({
         handles.productPriceContainer
       } ${parseTextAlign(textAlign)}`}
     >
-      {item.listPrice && item.listPrice !== item.sellingPrice && showListPrice && (
+      {item.listPrice && item.listPrice !== item.sellingPrice && showListPrice && item.availability === 'available' && (
         <div
           id={`list-price-${item.id}`}
           className={`${handles.productPriceCurrency}  ${applyModifiers(
@@ -63,7 +63,9 @@ const Price: React.FC<PriceProps> = ({
         <FormattedPrice
           value={
             item.sellingPrice != null
-              ? (item.sellingPrice * item.quantity) / 100
+              ? item.sellingPrice >= 0 && item.availability === 'available'
+                ? (item.sellingPrice * (item.unitMultiplier ?? 1) * item.quantity) / 100
+                : null
               : item.sellingPrice
           }
         />
