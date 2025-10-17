@@ -182,6 +182,7 @@ const QuantityStepper: VFC<Props> = ({
           className={classnames('flex-auto h-100 bn bg-transparent', {
             tc: measurementUnit === 'un',
             tr: measurementUnit !== 'un',
+            pr4: measurementUnit !== 'un',
           })}
           id={uniqueId}
           disabled={disabled}
@@ -190,9 +191,6 @@ const QuantityStepper: VFC<Props> = ({
           onFocus={() => setFocused(true)}
           onBlur={handleInputBlur}
         />
-        {measurementUnit !== 'un' && (
-          <span className="c-muted-1 ml3">{measurementUnit}</span>
-        )}
       </div>
       <button
         className={classnames(

@@ -265,7 +265,6 @@ const QuantitySelector: FC<Props> = ({
           onFocus={handleInputFocus}
           placeholder=""
           disabled={disabled}
-          suffix={measurementUnit}
         />
       </div>
       <div className={`${handles.quantityInputContainer} dn db-m`}>
@@ -278,7 +277,6 @@ const QuantitySelector: FC<Props> = ({
           onFocus={handleInputFocus}
           placeholder=""
           disabled={disabled}
-          suffix={measurementUnit}
         />
       </div>
     </Fragment>
