@@ -77,6 +77,7 @@ const UnitPrice: React.FC<UnitPriceProps> = ({
             <FormattedCurrency value={item.listPrice / 100} />
           </div>
         )}
+      {item.availability === 'available' ? (
       <FormattedMessage
         id="store/product-list.pricePerUnit"
         values={{
@@ -97,7 +98,7 @@ const UnitPrice: React.FC<UnitPriceProps> = ({
             </div>
           ),
         }}
-      />
+      />): null}
     </div>
   )
 }
