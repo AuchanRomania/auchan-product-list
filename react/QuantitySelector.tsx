@@ -7,7 +7,7 @@ import { useCssHandles, applyModifiers } from 'vtex.css-handles'
 import Selector from './components/QuantitySelector'
 import QuantityStepper from './components/QuantityStepper'
 import { useItemContext } from './ItemContext'
-import { AVAILABLE, CANNOT_BE_DELIVERED } from './constants/Availability'
+import { AVAILABLE, CANNOT_BE_DELIVERED, WITHOUT_PRICE_FULFILLMENT } from './constants/Availability'
 import { opaque } from './utils/opaque'
 import styles from './styles.css'
 
@@ -22,7 +22,7 @@ interface Props {
   quantitySelectorStep?: QuantitySelectorStepType
 }
 
-const enabledSelectorAvailability = [AVAILABLE, CANNOT_BE_DELIVERED]
+const enabledSelectorAvailability = [AVAILABLE, CANNOT_BE_DELIVERED, WITHOUT_PRICE_FULFILLMENT]
 
 function shouldDisableSelector(availability: string | null | undefined) {
   return !enabledSelectorAvailability.includes(availability ?? '')
