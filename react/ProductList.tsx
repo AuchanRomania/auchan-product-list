@@ -1,13 +1,15 @@
 import type { ReactNode } from 'react'
-import React, { useMemo, memo } from 'react'
+import React, { useMemo, memo, useState, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import type { Item } from 'vtex.checkout-graphql'
 import { useCssHandles } from 'vtex.css-handles'
+import { Spinner } from 'vtex.styleguide'
 
 import { ItemContextProvider } from './ItemContext'
 import { AVAILABLE } from './constants/Availability'
 import { CALL_CENTER_OPERATOR } from './constants/User'
 import LazyRender from './LazyRender'
+import { fetchWithRetry } from './utils/fetchWithRetry'
 
 type TotalItemsType =
   | 'total'
@@ -144,16 +146,65 @@ const ProductList = memo<Props>(function ProductList(props) {
 
   const handles = useCssHandles(CSS_HANDLES)
 
+  const [packagesSkuIds, setPackagesSkuIds] = useState<string[]>([])
+  const [sgrSkuIds, setSgrSkuIds] = useState<string[]>([])
+
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let isSubscribed = true
+
+    fetchWithRetry('/_v/private/api/cart-bags-manager/app-settings', 3, () => {
+      setLoading(false)
+    }).then((res: PackagesSkuIds) => {
+      if (res && isSubscribed) {
+        try {
+          const { bagsSettings, sgrSettings } = (res && res.data) ?? {}
+
+          setPackagesSkuIds(Object.values(bagsSettings))
+
+          const allSkuIds: string[] = []
+
+          Object.values(sgrSettings).forEach((sgrType) => {
+            if (sgrType && sgrType.skuIds) {
+              allSkuIds.push(...sgrType.skuIds)
+            }
+          })
+
+          setSgrSkuIds(allSkuIds)
+        } catch (error) {
+          console.error('Error in packages feature.', error)
+        }
+      }
+    })
+
+    return () => {
+      isSubscribed = false
+    }
+  }, [])
+
   const [availableItems, unavailableItems] = items
     .map((item, index) => ({ ...item, index }))
     .reduce<ItemWithIndex[][]>(
       (acc, item) => {
+        if (
+          item.productId &&
+          (packagesSkuIds.includes(item.productId) ||
+            sgrSkuIds.includes(item.productId))
+        ) {
+          return acc
+        }
+
         acc[item.availability === AVAILABLE ? 0 : 1].push(item)
 
         return acc
       },
       [[], []]
     )
+
+  if (loading) {
+    return <Spinner />
+  }
 
   return (
     /* Replacing the outer div by a Fragment may break the layout. See PR #39. */

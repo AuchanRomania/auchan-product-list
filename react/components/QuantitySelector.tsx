@@ -151,7 +151,12 @@ const QuantitySelector: FC<Props> = ({
   }
 
   const handleInputChange: ComponentProps<'input'>['onChange'] = (event) => {
-    setDisplayValue(event.target.value)
+    setTimeout(() => {
+      if (event.target.value === '') {
+        setDisplayValue('1')
+      }     
+    }, 300)
+    onChange(Number(event.target.value));    
   }
 
   const handleInputBlur = () => {
@@ -187,10 +192,6 @@ const QuantitySelector: FC<Props> = ({
   }
 
   useEffect(() => {
-    if (inputFocused) {
-      return
-    }
-
     if (normalizedValue >= MAX_DROPDOWN_VALUE) {
       setSelector(SelectorType.Input)
     }
@@ -264,7 +265,6 @@ const QuantitySelector: FC<Props> = ({
           onFocus={handleInputFocus}
           placeholder=""
           disabled={disabled}
-          suffix={measurementUnit}
         />
       </div>
       <div className={`${handles.quantityInputContainer} dn db-m`}>
@@ -277,7 +277,6 @@ const QuantitySelector: FC<Props> = ({
           onFocus={handleInputFocus}
           placeholder=""
           disabled={disabled}
-          suffix={measurementUnit}
         />
       </div>
     </Fragment>

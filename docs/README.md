@@ -19,7 +19,7 @@ The Product List component displays all items in the user's cart and informs use
 
 ```json
   "dependencies": {
-    "vtex.product-list": "0.x"
+    "auchan.product-list": "0.x"
   }
 ```
 
@@ -264,6 +264,13 @@ In order to customize the `product-list` configuration, copy the code above, pas
 | `product-quantity-label`       | Renders a product label that displays the number of items added to the cart.                                                                                                                                                                                                                           |
 | `quantity-selector`            | Renders a selector that allows users to choose how many units of a product they want to add to the cart.                                                                                                                                                                                               |
 | `remove-button`                | Renders a button that allows users to remove a product from the list.                                                                                                                                                                                                                                  |
+
+### `minicart-product-list` props
+
+| Prop name | Type   | Description                                                                                                                                                                         | Default value |
+| --------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `splitItem`  | `boolean` | Determines whether products with attachments should be split and treated as individual items (`true`) or as a single item (`false`) when their quantity is increased in the minicart. | `false`        |
+
 
 ### `product-list` props
 
