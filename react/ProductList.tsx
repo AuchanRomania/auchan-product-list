@@ -146,7 +146,6 @@ const ProductList = memo<Props>(function ProductList(props) {
 
   const handles = useCssHandles(CSS_HANDLES)
 
-  const [packagesSkuIds, setPackagesSkuIds] = useState<string[]>([])
   const [sgrSkuIds, setSgrSkuIds] = useState<string[]>([])
 
   const [loading, setLoading] = useState(true)
@@ -154,14 +153,13 @@ const ProductList = memo<Props>(function ProductList(props) {
   useEffect(() => {
     let isSubscribed = true
 
-    fetchWithRetry('/_v/private/api/cart-bags-manager/app-settings', 3, () => {
+    fetchWithRetry('/auchan/v1/cart-manager/app-settings', 3, () => {
       setLoading(false)
     }).then((res: PackagesSkuIds) => {
       if (res && isSubscribed) {
         try {
-          const { bagsSettings, sgrSettings } = (res && res.data) ?? {}
+          const { sgrSettings } = (res && res.data) ?? {}
 
-          setPackagesSkuIds(Object.values(bagsSettings))
 
           const allSkuIds: string[] = []
 
@@ -189,8 +187,7 @@ const ProductList = memo<Props>(function ProductList(props) {
       (acc, item) => {
         if (
           item.productId &&
-          (packagesSkuIds.includes(item.productId) ||
-            sgrSkuIds.includes(item.productId))
+          sgrSkuIds.includes(item.productId)
         ) {
           return acc
         }
