@@ -155,7 +155,7 @@ const ProductList = memo<Props>(function ProductList(props) {
 
     fetchWithRetry('/auchan/v1/cart-manager/app-settings', 3, () => {
       setLoading(false)
-    }).then((res: PackagesSkuIds) => {
+    }).then((res: CartManagerResponse) => {
       if (res && isSubscribed) {
         try {
           const { sgrSettings } = (res && res.data) ?? {}

@@ -2,7 +2,7 @@ type FetchWithRetry = (
   url: string,
   retries: number,
   finallyCallback: () => void
-) => Promise<PackagesSkuIds>
+) => Promise<CartManagerResponse>
 
 export const fetchWithRetry: FetchWithRetry = (
   url: string,
